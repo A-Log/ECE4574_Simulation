@@ -6,5 +6,5 @@
 <entry key="debug">true</entry>
 <entry key="numRobots">0</entry>
 <entry key="numBuildings">1</entry>
-<entry key="connectStorage">true</entry>
+<entry key="connectStorage">false</entry>
 </properties>
