@@ -31,7 +31,13 @@ public abstract class Event {
 
 	}
 	
-
+	public void setRoom(long room_){
+		room = room_;
+	}
+	
+	public void setBuilding(String bld){
+		building = bld;
+	}
 
 	protected boolean setBaseDetails(String details){
 		JSONParser parser = new JSONParser();

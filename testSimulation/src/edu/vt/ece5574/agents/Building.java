@@ -11,6 +11,7 @@ import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.roomconditions.Temperature;
 import edu.vt.ece5574.roomconditions.WaterLevel;
 import edu.vt.ece5574.roomconditions.Smoke;
+import edu.vt.ece5574.agents.SmokeSensor;
 
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.SimState;
@@ -378,6 +379,12 @@ public class Building extends Agent{
             sensorsInBld.add(newSensor);
 
             repeating = false;
+		} else if(type == "smoke") {
+			newSensor = new SmokeSensor(String.valueOf(agentsInBld.size()),id, state, x, y);
+			agents.setObjectLocation(newSensor, x, y);
+            agentsInBld.add(newSensor);
+            state.addAgent(newSensor);
+            sensorsInBld.add(newSensor);
 		}
 
 		if(repeating)
@@ -459,13 +466,12 @@ public class Building extends Agent{
 		while(events.size()!=0)
 		{
 			Event currentEvent = events.removeFirst();
-			if(currentEvent instanceof FireEvent){
-				FireEvent fireevent = (FireEvent)currentEvent;
-				if(fireevent.is_fireActive()){
-				(rooms.get((int)fireevent.getRoom())).roomTemperature.fireTempChange(fireevent.getSeverity());
+			for(int i = 0;i<sensorsInBld.size();i++){
+				if(sensorsInBld.get(i).getSensorType() == "smoke"){
+					SmokeSensor smokesensor = (SmokeSensor)sensorsInBld.get(i);
+					smokesensor.handleEvent(currentEvent);
 				}
 			}
-
 		}
 	}
 
